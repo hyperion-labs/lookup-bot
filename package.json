@@ -1,0 +1,21 @@
+{
+  "name": "lookup-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Chris Ramesh <chris@hyperionlabs.co>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "numeral": "^2.0.6",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "jest": "^23.2.0"
+  }
+}
