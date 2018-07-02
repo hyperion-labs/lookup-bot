@@ -31,6 +31,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// services
+require('./services/launch-only/passport');
+
 // connect app to routes
 app.use('/', routes);
 
