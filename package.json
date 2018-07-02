@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Chris Ramesh <chris@hyperionlabs.co>",
   "license": "MIT",
+  "engines": {
+    "node": "10.2.1",
+    "yarn": "1.4.0"
+  },
   "scripts": {
     "start": "node app.js"
   },
