@@ -10,4 +10,8 @@ module.exports = (routes) => {
   }));
 
   routes.get('/auth/google/callback', passport.authenticate('google'));
+
+  routes.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
 };
