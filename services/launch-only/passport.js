@@ -5,9 +5,18 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // custom
 const { clientID, clientSecret } = require('../../config').passport;
-const { createUser, getUserByOauthId } = require('../../models');
+const { createUser, getUserByUid, getUserByOauthId } = require('../../models');
 
 /* Service ==================================================================== */
+
+passport.serializeUser((user, done) => {
+  done(null, user.uid);
+});
+
+passport.deserializeUser(async (uid, done) => {
+  const user = await getUserByUid(uid);
+  done(null, user);
+});
 
 passport.use(new GoogleStrategy(
   {
@@ -15,7 +24,7 @@ passport.use(new GoogleStrategy(
     clientSecret,
     callbackURL: '/auth/google/callback',
   },
-  async (accessToken, refreshToken, profile) => {
+  async (accessToken, refreshToken, profile, done) => {
     const { familyName } = profile.name;
     const firstName = profile.name.givenName;
     const emailAddress = profile.emails[0].type === 'account' ? profile.emails[0].value : null;
@@ -34,12 +43,14 @@ passport.use(new GoogleStrategy(
         refreshToken,
       });
       console.log(`Successfully created new user for ${user.email_address} with id of ${user.uid}`);
+      done(null, user);
       return user;
     } catch (e) {
       console.log(`Error: ${e.message}`);
       try {
         const user = await getUserByOauthId(oauthUserId);
         console.log(`User ${user.uid} exists and has signed in`);
+        done(null, user);
         return user;
       } catch (err) {
         console.log(`Error: ${err.message}`);

@@ -21,9 +21,12 @@ Resources:
 // libraries
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 
 // custom
 require('./services/launch-only');
+const { cookieKey } = require('./config');
 const routes = require('./routes');
 
 // constants
@@ -33,6 +36,12 @@ const port = process.env.PORT || 5000;
 const app = express();
 
 // middleware
+app.use(cookieSession({
+  maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
+  keys: [cookieKey],
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log(`\n+++Request received+++\nMethod: ${req.method}\nurl: ${req.url}\nbody: ${JSON.stringify(req.body, null, 2)}`);

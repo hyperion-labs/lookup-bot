@@ -23,6 +23,17 @@ const getUserByOauthId = async (oauthUserId) => {
   }
 };
 
+const getUserByUid = async (uid) => {
+  console.log(`Looking for user ${uid}`);
+  const queryText = `SELECT * from users_auth WHERE uid = '${uid}'`;
+  try {
+    const userResult = await pool.query(queryText);
+    return userResult.rows[0];
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
 const createUser = async (json) => {
   const userProps = [
     'familyName',
@@ -87,6 +98,7 @@ const createTableUsersAuth = () => {
 /* Exports ==================================================================== */
 module.exports = {
   createUser,
+  getUserByUid,
   getUserByOauthId,
   createTableUsersAuth,
 };
