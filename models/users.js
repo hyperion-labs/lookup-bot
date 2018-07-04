@@ -12,7 +12,18 @@ const { pool } = require('../services');
 
 /* Models ==================================================================== */
 
-const createUser = (json) => {
+const getUserByOauthId = async (oauthUserId) => {
+  console.log(`Looking for user ${oauthUserId}`);
+  const queryText = `SELECT * from users_auth WHERE oauth_user_id = '${oauthUserId}'`;
+  try {
+    const userResult = await pool.query(queryText);
+    return userResult.rows[0];
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const createUser = async (json) => {
   const userProps = [
     'familyName',
     'firstName',
@@ -24,8 +35,8 @@ const createUser = (json) => {
     'expiryDate',
   ];
   const keyMap = {
-    familyName: [ 'family_name', 'varchar'],
-    firstName: ['first_name', 'varchar'], 
+    familyName: ['family_name', 'varchar'],
+    firstName: ['first_name', 'varchar'],
     emailAddress: ['email_address', 'varchar'],
     oauthUserId: ['oauth_user_id', 'int'],
     oauthProvider: ['oauth_provider', 'varchar'],
@@ -46,27 +57,36 @@ const createUser = (json) => {
     cols: [],
     vals: [],
   });
-  
+
   const queryText = `INSERT INTO users_auth(${userPsql.cols.join(', ')}) values(${userPsql.vals.join(', ')})`;
-  return pool.query(queryText);
+  try {
+    await pool.query(queryText);
+    const user = await getUserByOauthId(userJson.oauthUserId);
+    return user;
+  } catch (e) {
+    throw new Error(e.message);
+  }
 };
 
 // createUser({
-  // firstName: 'Chris',
-  // familyName: 'Ramesh',
-  // emailAddress: 'chris.ramesh@gmail.com',
-  // randomShit: 'lolzz',
-  // oauthUserId: 1234,
-// });
+//   firstName: 'Chris',
+//   familyName: 'Ramesh',
+//   emailAddress: 'chris.ramesh@gmail.com',
+//   randomShit: 'lolzz',
+//   oauthUserId: 12340,
+// })
+//   .then(() => console.log('success!'))
+//   .catch(e => console.log(e.message));
 
 /* Create Tables ==================================================================== */
 const createTableUsersAuth = () => {
-  const queryText = 'CREATE TABLE users_auth(uid SERIAL PRIMARY KEY, family_name varchar(50), first_name varchar(50), email_address varchar(255), oauth_user_id bigint CONSTRAINT oauth_id_must_be_unique UNIQUE, oauth_provider varchar(20), access_token varchar(40), refresh_token varchar(40), expiry_date timestamp, created_on date DEFAULT current_timestamp)';
+  const queryText = 'CREATE TABLE users_auth(uid SERIAL PRIMARY KEY, family_name varchar(50), first_name varchar(50), email_address varchar(255), oauth_user_id char(21) CONSTRAINT oauth_id_must_be_unique UNIQUE, oauth_provider varchar(20), access_token varchar(255), refresh_token varchar(255), expiry_date timestamp, created_on date DEFAULT current_timestamp)';
   return pool.query(queryText);
 };
 
 /* Exports ==================================================================== */
 module.exports = {
   createUser,
+  getUserByOauthId,
   createTableUsersAuth,
 };
