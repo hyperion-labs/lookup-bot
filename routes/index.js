@@ -17,7 +17,7 @@ require('./authRoutes')(routes);
 routes.get('/testWrite', (req, res) => {
   createTableUsersAuth()
     .then(() => {
-      console.log('Successfully added user_auth table')
+      console.log('Successfully added user_auth table');
       res.send({
         message: 'Successfully added user_auth table',
       });

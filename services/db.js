@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const { connectionString } = require('../config');
 
 /* database ==================================================================== */
-const pool = new Pool({ 
+const pool = new Pool({
   connectionString,
   ssl: true,
 });

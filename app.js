@@ -19,21 +19,17 @@ Resources:
 
 /* Variables ==================================================================== */
 // libraries
-const express = require('express');
 const bodyParser = require('body-parser');
 
 // custom
+const { app } = require('./services');
 const routes = require('./routes');
+require('./services/launch-only/passport');
 
 // constants
 const port = process.env.PORT || 5000;
 
 /* App ==================================================================== */
-const app = express();
-
-// services
-require('./services/launch-only/passport');
-
 // middleware
 app.use(bodyParser.json());
 app.use((req, res, next) => {

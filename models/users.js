@@ -9,6 +9,7 @@ const { pool } = require('../services');
 
 /* Models ==================================================================== */
 
+
 /* Create Tables ==================================================================== */
 const createTableUsersAuth = () => {
   const queryText = 'CREATE TABLE users_auth(uid SERIAL PRIMARY KEY, oauth_user_id bigint, oauth_provider varchar(20), access_token varchar(40), refresh_token varchar(40), expiry_date timestamp, created_on date DEFAULT current_timestamp)';
