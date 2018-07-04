@@ -8,6 +8,13 @@ Resources:
 
 ++ directory structure
 -- https://www.terlici.com/2014/08/25/best-practices-express-structure.html
+
+++ database stuff
+-- knex: https://hackernoon.com/setting-up-node-js-with-a-database-part-1-3f2461bdd77f
+-- https://gist.github.com/NigelEarle/80150ff1c50031e59b872baf0e474977
+-- https://gist.github.com/laurenfazah/e0b0033cdc40a313d4710cc04e654556
+-- https://www.quora.com/How-do-I-use-a-MySQL-pool-in-multiple-files-with-Node-js
+
 */
 
 /* Variables ==================================================================== */
@@ -24,15 +31,15 @@ const port = process.env.PORT || 5000;
 /* App ==================================================================== */
 const app = express();
 
+// services
+require('./services/launch-only/passport');
+
 // middleware
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log(`\n+++Request received+++\nMethod: ${req.method}\nurl: ${req.url}\nbody: ${JSON.stringify(req.body, null, 2)}`);
   next();
 });
-
-// services
-require('./services/launch-only/passport');
 
 // connect app to routes
 app.use('/', routes);
