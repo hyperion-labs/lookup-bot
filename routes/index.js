@@ -3,7 +3,10 @@
 const routes = require('express').Router();
 
 // custom
-const { createTableUsersAuth } = require('../models');
+const {
+  createUser,
+  createTableUsersAuth,
+} = require('../models');
 
 /* Routes ==================================================================== */
 
@@ -28,6 +31,13 @@ routes.get('/testWrite', (req, res) => {
         message: `Error: ${e.message}`,
       });
     });
+});
+
+routes.post('/testNewUser', (req, res) => {
+  const { userInfo } = req.body;
+  createUser(userInfo)
+    .then(() => res.send('success!'))
+    .catch(e => res.send(e.message));
 });
 
 /* Export ==================================================================== */

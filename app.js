@@ -22,9 +22,9 @@ Resources:
 const bodyParser = require('body-parser');
 
 // custom
+require('./services/launch-only');
 const { app } = require('./services');
 const routes = require('./routes');
-require('./services/launch-only/passport');
 
 // constants
 const port = process.env.PORT || 5000;

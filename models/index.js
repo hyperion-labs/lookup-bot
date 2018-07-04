@@ -1,5 +1,9 @@
-const { createTableUsersAuth } = require('./users');
+const {
+  createUser,
+  createTableUsersAuth,
+} = require('./users');
 
 module.exports = {
+  createUser,
   createTableUsersAuth,
 };
