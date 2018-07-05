@@ -4,17 +4,20 @@ const { connectionString } = require('../config');
 
 /* database ==================================================================== */
 // comment this out when deploying to production
-const poolConfigDev = {
-  connectionString: 'postgresql://localhost:5432/lookup_bot',
-  ssl: false,
-};
-console.log('Running db in local dev mode');
+let poolConfig;
 
-const poolConfigProd = {
-  connectionString,
-  ssl: true,
-};
-const poolConfig = poolConfigDev || poolConfigProd;
+if (process.env.NODE_ENV === 'production') {
+  poolConfig = {
+    connectionString,
+    ssl: true,
+  };
+} else {
+  console.log('Running db in local dev mode');
+  poolConfig = {
+    connectionString,
+    ssl: false,
+  };
+}
 
 const pool = new Pool(poolConfig);
 
