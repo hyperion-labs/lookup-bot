@@ -13,7 +13,7 @@ const { pool } = require('../services');
 /* Models ==================================================================== */
 
 const getUserByOauthId = async (oauthUserId) => {
-  console.log(`Looking for user ${oauthUserId}`);
+  console.log(`get user by oauthId: ${oauthUserId}`);
   const queryText = `SELECT * from users_auth WHERE oauth_user_id = '${oauthUserId}'`;
   try {
     const userResult = await pool.query(queryText);
@@ -24,7 +24,7 @@ const getUserByOauthId = async (oauthUserId) => {
 };
 
 const getUserByUid = async (uid) => {
-  console.log(`Looking for user ${uid}`);
+  console.log(`get user by id: ${uid}`);
   const queryText = `SELECT * from users_auth WHERE uid = '${uid}'`;
   try {
     const userResult = await pool.query(queryText);
@@ -55,6 +55,7 @@ const createUser = async (json) => {
     refreshToken: ['refresh_token', 'varchar'],
     expiryDate: ['expiry_date', 'date'],
   };
+
   // sanitize json object
   const userJson = _.pickBy(json, (value, key) => (_.includes(userProps, key) && !_.isNil(value)));
   const userPsql = Object.keys(userJson).reduce((accObj, key) => {
@@ -78,16 +79,6 @@ const createUser = async (json) => {
     throw new Error(e.message);
   }
 };
-
-// createUser({
-//   firstName: 'Chris',
-//   familyName: 'Ramesh',
-//   emailAddress: 'chris.ramesh@gmail.com',
-//   randomShit: 'lolzz',
-//   oauthUserId: 12340,
-// })
-//   .then(() => console.log('success!'))
-//   .catch(e => console.log(e.message));
 
 /* Create Tables ==================================================================== */
 const createTableUsersAuth = () => {

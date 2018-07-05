@@ -1,44 +1,26 @@
+/* Resources
+-- https://stackoverflow.com/questions/25260818/rest-with-express-js-nested-router
+*/
+
 /* Variables ==================================================================== */
 // libraries
-const routes = require('express').Router();
-
-// custom
-const {
-  createUser,
-  createTableUsersAuth,
-} = require('../models');
+const express = require('express');
 
 /* Routes ==================================================================== */
 
 // root
+const routes = express.Router();
 routes.get('/', (req, res) => res.status(200).send('Hello world'));
 
 // auth
-require('./authRoutes')(routes);
+const authRoutes = express.Router({ mergeParams: true });
+routes.use('/auth', authRoutes);
+require('./authRoutes')(authRoutes);
 
 // writing
-routes.get('/testWrite', (req, res) => {
-  createTableUsersAuth()
-    .then(() => {
-      console.log('Successfully added user_auth table');
-      res.send({
-        message: 'Successfully added user_auth table',
-      });
-    })
-    .catch((e) => {
-      console.log(`Error: ${e.message}`);
-      res.status(400).send({
-        message: `Error: ${e.message}`,
-      });
-    });
-});
-
-routes.post('/testNewUser', (req, res) => {
-  const { userInfo } = req.body;
-  createUser(userInfo)
-    .then(() => res.send('success!'))
-    .catch(e => res.send(e.message));
-});
+const apiUserRoutes = express.Router({ mergeParams: true });
+routes.use('/api/v1', apiUserRoutes);
+require('./userRoutes')(apiUserRoutes);
 
 /* Export ==================================================================== */
 module.exports = routes;
