@@ -25,6 +25,7 @@ passport.use(new GoogleStrategy(
     clientID,
     clientSecret,
     callbackURL: '/auth/google/callback',
+    proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {
     const { familyName } = profile.name;
