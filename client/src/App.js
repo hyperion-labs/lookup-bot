@@ -11,8 +11,9 @@ class App extends Component {
           <h1 className="App-title">Hello world</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, e <code>src/App.js</code> and save to reload.
         </p>
+        <a href="/auth/google">Sign In with Google</a>
       </div>
     );
   }

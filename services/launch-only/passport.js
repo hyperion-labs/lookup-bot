@@ -28,39 +28,31 @@ passport.use(new GoogleStrategy(
     proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {
+    // user information from googl auth
     const { familyName } = profile.name;
     const firstName = profile.name.givenName;
     const emailAddress = profile.emails[0].type === 'account' ? profile.emails[0].value : null;
     const oauthUserId = profile.id;
     const oauthProvider = 'google';
 
-    try {
-      console.log(`Attempting signup for ${emailAddress}, google id(${oauthUserId})`);
-      const user = await createUser({
-        familyName,
-        firstName,
-        oauthUserId,
-        oauthProvider,
-        emailAddress,
-        accessToken,
-        refreshToken,
-      });
-      console.log(`Successfully created new user for ${user.email_address} with id of ${user.uid}`);
-      done(null, user);
-      return user;
-    } catch (e) {
-      console.log(`Error: ${e.message}`);
-      try {
-        const user = await getUserByOauthId(oauthUserId);
-        console.log(`User ${user.uid} exists and has signed in`);
-        done(null, user);
-        return user;
-      } catch (err) {
-        console.log(`Error: ${err.message}`);
-        // note: this error, when thrown, isn't being handled as passport is calling this
-        throw new Error(err.message);
-      }
+    const existingUser = await getUserByOauthId(oauthUserId);
+
+    if (existingUser) {
+      console.log(`Found existing user with id ${existingUser.uid} (${existingUser.email_address})`);
+      return done(null, existingUser);
     }
+
+    const newUser = await createUser({
+      familyName,
+      firstName,
+      oauthUserId,
+      oauthProvider,
+      emailAddress,
+      accessToken,
+      refreshToken,
+    });
+    console.log(`Successfully created new user with id ${newUser.uid} (${newUser.email_address})`);
+    return done(null, newUser);
   },
 ));
 
