@@ -1,15 +1,10 @@
 {
   "extends": "airbnb-base",
   "rules": {
-    "no-console": 0,
-    "no-plusplus": 0
+    "no-console": 0
   },
   "env": {
     "browser": true,
     "node": true
-  },
-  "globals": {
-    "fbq": true,
-    "amplitude": true
   }
 }
