@@ -10,12 +10,12 @@ const { createUser, getUserByUid, getUserByOauthId } = require('../../models');
 /* Service ==================================================================== */
 
 passport.serializeUser((user, done) => {
-  console.log('serialize user');
+  console.log(`serialize user ${user.uid}`);
   done(null, user.uid);
 });
 
 passport.deserializeUser(async (uid, done) => {
-  console.log('deserialize user');
+  console.log(`deserialize user ${uid}`);
   const user = await getUserByUid(uid);
   done(null, user);
 });
