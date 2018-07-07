@@ -4,7 +4,7 @@ module.exports = {
         "es6": true
     },
     "extends": [
-        "eslint:recommended",
+        "airbnb-base",
         "plugin:react/recommended"
     ],
     "parserOptions": {
@@ -18,23 +18,8 @@ module.exports = {
         "react"
     ],
     "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
         "no-console": 0,
+        "arrow-body-style": 0,
     },
     "globals": {
         "React": true,
