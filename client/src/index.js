@@ -7,10 +7,11 @@ import { Provider } from 'react-redux';
 
 // custom
 import App from './components/App';
+import reducers from './reducers';
 
 /* App ==================================================================== */
 // redux
-const store = createStore(() => [], {}, applyMiddleware());
+const store = createStore(reducers, {}, applyMiddleware());
 
 ReactDom.render(
   <Provider store={store}>
