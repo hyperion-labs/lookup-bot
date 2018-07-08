@@ -3,6 +3,7 @@
 const passport = require('passport');
 
 /* Export Routes ==================================================================== */
+
 // coming from '/auth'
 module.exports = (router) => {
   router.get('/logout', (req, res) => {
