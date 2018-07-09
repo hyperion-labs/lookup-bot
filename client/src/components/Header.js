@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 /* Redux ==================================================================== */
 
@@ -14,6 +15,11 @@ const mapStateToProps = (state) => {
 /* App ==================================================================== */
 
 class Header extends Component {
+  getRouteHome = () => {
+    const { auth } = this.props;
+    return auth.user ? '/surveys' : '/';
+  }
+
   renderContent = () => {
     const { auth } = this.props;
 
@@ -23,11 +29,10 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <nav>
         <div className="nav-wrapper">
-          <a href="/" className="left brand-logo">Logo</a>
+          <Link to={this.getRouteHome()} className="left brand-logo">Logo</Link>
           <ul id="nav-mobile" className="right">
             {this.renderContent()}
           </ul>

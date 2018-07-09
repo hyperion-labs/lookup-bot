@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 
 // custom
 import { Header } from './components';
+import { Landing } from './views';
 import * as actions from './actions';
 
 const Dashboard = () => <h2>Dashboard</h2>;
 const SurveyNew = () => <h2>SurveyNew</h2>;
-const Landing = () => <h2>Landing</h2>;
 
 /* Redux ==================================================================== */
 

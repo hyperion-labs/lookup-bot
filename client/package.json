@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "materialize-css": "^0.100.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",

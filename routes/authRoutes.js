@@ -4,7 +4,10 @@ const passport = require('passport');
 
 /* Export Routes ==================================================================== */
 
-// coming from '/auth'
+// ++++ coming from '/auth'++++
+
+// logout
+// TODO: turn this into an axios request with client methods to clean up stuff
 module.exports = (router) => {
   router.get('/logout', (req, res) => {
     req.logout();
