@@ -10,7 +10,7 @@ import logger from 'redux-logger';
 
 // custom
 import App from './App';
-import reducers from './reducers';
+import reducers from './redux/reducers';
 
 /* App ==================================================================== */
 // middleware

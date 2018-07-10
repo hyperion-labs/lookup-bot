@@ -1,4 +1,4 @@
-import { FETCH_USER } from '../actions/types';
+import { FETCH_USER } from '../../constants';
 
 const INITIAL_STATE = {
   isLoading: true,

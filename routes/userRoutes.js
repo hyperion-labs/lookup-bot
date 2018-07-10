@@ -6,6 +6,7 @@ const {
 } = require('../models');
 
 /* Export Routes ==================================================================== */
+// coming from /api/v1/users
 module.exports = (router) => {
   router.get('/createUserTable', (req, res) => {
     createTableUsersAuth()

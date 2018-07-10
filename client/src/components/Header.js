@@ -1,8 +1,16 @@
 /* Variables ==================================================================== */
+// Libraries
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+
+// Custom
+import Payments from './Payments';
+import {
+  ROUTES_AUTH_GOOGLE,
+  ROUTES_AUTH_LOGOUT,
+} from '../constants';
 
 /* Redux ==================================================================== */
 
@@ -24,8 +32,11 @@ class Header extends Component {
     const { auth } = this.props;
 
     if (auth.isLoading) return '';
-    if (!auth.user) return (<li><a href="/auth/google">Log in with Google</a></li>);
-    return (<li><a href="auth/logout">Logout</a></li>);
+    if (!auth.user) return (<li><a href={ROUTES_AUTH_GOOGLE}>Log in with Google</a></li>);
+    return [
+      <li key="buttonPayments"><Payments /></li>,
+      <li key="buttonLogout"><a href={ROUTES_AUTH_LOGOUT}>Logout</a></li>,
+    ];
   }
 
   render() {

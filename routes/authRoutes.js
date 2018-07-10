@@ -4,7 +4,7 @@ const passport = require('passport');
 
 /* Export Routes ==================================================================== */
 
-// ++++ coming from '/auth'++++
+// ++++ coming from '/api/auth'++++
 
 // logout
 // TODO: turn this into an axios request with client methods to clean up stuff
@@ -19,6 +19,7 @@ module.exports = (router) => {
   router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'],
   }));
+
   router.get(
     '/google/callback',
     passport.authenticate('google'),

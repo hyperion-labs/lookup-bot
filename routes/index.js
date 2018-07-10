@@ -14,12 +14,12 @@ routes.get('/', (req, res) => res.status(200).send('Hello world'));
 
 // auth
 const authRoutes = express.Router({ mergeParams: true });
-routes.use('/auth', authRoutes);
+routes.use('/api/auth', authRoutes);
 require('./authRoutes')(authRoutes);
 
-// writing
+// users
 const apiUserRoutes = express.Router({ mergeParams: true });
-routes.use('/api/v1', apiUserRoutes);
+routes.use('/api/v1/users', apiUserRoutes);
 require('./userRoutes')(apiUserRoutes);
 
 /* Export ==================================================================== */

@@ -1,5 +1,7 @@
-import Landing from './Landing';
+import LandingView from './LandingView';
+import PaymentsView from './PaymentsView';
 
 export {
-  Landing,
+  LandingView,
+  PaymentsView,
 };
