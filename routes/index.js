@@ -22,5 +22,10 @@ const apiUserRoutes = express.Router({ mergeParams: true });
 routes.use('/api/v1/users', apiUserRoutes);
 require('./userRoutes')(apiUserRoutes);
 
+// payments
+const apiPaymentRoutes = express.Router({ mergeParams: true });
+routes.use('/api/v1/payments', apiPaymentRoutes);
+require('./paymentRoutes')(apiPaymentRoutes);
+
 /* Export ==================================================================== */
 module.exports = routes;
