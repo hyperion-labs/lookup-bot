@@ -6,11 +6,12 @@ const _ = require('lodash');
 const { pool } = require('../services');
 
 /* Models ==================================================================== */
-const createPayment = async ({ uid, amount }) => {
+const createPayment = async ({ uid, amount, chargeObj }) => {
   if (_.isNil(uid)) throw new Error(`Uid of ${uid} is not valid.`);
   if (_.isNil(amount)) throw new Error(`Payment amount of ${amount} is not valid.`);
+  if (_.isNil(chargeObj)) throw new Error('Payment charge info is not valid.');
 
-  const queryText = `INSERT INTO payments(uid, amount) values(${uid}, ${amount})`;
+  const queryText = `INSERT INTO payments(uid, amount, charge_info) values(${uid}, ${amount / 100}, '${JSON.stringify(chargeObj)}')`;
   try {
     await pool.query(queryText);
     return { uid, amount };
@@ -34,7 +35,7 @@ const getTotalPaymentsForUid = async (uid) => {
 
 /* Create Tables ==================================================================== */
 const createTablePayments = () => {
-  const queryText = 'CREATE TABLE payments(payment_id SERIAL PRIMARY KEY, uid integer REFERENCES users_auth ON DELETE CASCADE, amount money, transaction_date date DEFAULT current_timestamp)';
+  const queryText = 'CREATE TABLE payments(payment_id SERIAL PRIMARY KEY, uid integer REFERENCES users_auth ON DELETE CASCADE, amount money, transaction_date date DEFAULT current_timestamp, charge_info jsonb)';
   return pool.query(queryText);
 };
 

@@ -6,6 +6,9 @@ const {
   getTotalPaymentsForUid,
 } = require('../models');
 
+const { stripe } = require('../services');
+const { requireLogin } = require('../middleware');
+
 /* Export Routes ==================================================================== */
 // coming from /api/v1/payments
 module.exports = (router) => {
@@ -23,16 +26,23 @@ module.exports = (router) => {
     }
   });
 
-  router.post('/create-payment', async (req, res) => {
-    const { paymentInfo } = req.body;
+  router.post('/create-payment', requireLogin, async (req, res) => {
+    const { uid, amount, token } = req.body.paymentInfo;
+
     try {
-      await createPayment(paymentInfo);
-      const successMessage = `Successfully added payment of ${paymentInfo.amount} for user ${paymentInfo.uid}`;
-      console.log(successMessage);
-      res.send({ successMessage });
+      const chargeObj = await stripe.charges.create({
+        amount,
+        currency: 'usd',
+        description: `${amount / 100} by user ${uid}`,
+        source: token.id,
+      });
+
+      await createPayment({ uid, amount, chargeObj });
+      const successMessage = `Successfully added payment of ${amount} for user ${uid}`;
+      return res.send({ successMessage });
     } catch (e) {
-      console.log(`Error: ${e.message}`);
-      res.status(400).send({
+      console.log(`Error: ${e.message}`); 
+      return res.status(400).send({
         message: `Error: ${e.message}`,
       });
     }

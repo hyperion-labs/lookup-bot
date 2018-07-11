@@ -44,7 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  console.log(`\n+++Request received+++\nMethod: ${req.method}\nurl: ${req.url}\nbody: ${JSON.stringify(req.body, null, 2)}`);
+  console.log(`\n+++Request received+++\nMethod: ${req.method}\nurl: ${req.url}\nuser: ${JSON.stringify(req.user ? req.user.uid : {})}\nbody: ${JSON.stringify(req.body, null, 2)}`);
   next();
 });
 
